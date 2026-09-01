@@ -124,7 +124,7 @@ h3 { font-size: 1.25rem; }
 .detail-visual span { color: rgb(255 255 255 / 55%); font-family: Georgia, serif; font-size: 12rem; }
 .venue-gallery { min-width: 0; }
 .gallery-stage { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: 1rem; background: var(--surface); box-shadow: var(--shadow); }
-.gallery-main-image { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: contain; background: #241713; }
+.gallery-main-image { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center; }
 .optional-label { color: var(--muted); font-weight: 400; }
 .form-group input[type='file'] { padding: .55rem; background: var(--paper); }
 .gallery-arrow { position: absolute; z-index: 2; top: 50%; display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid rgb(255 255 255 / 60%); border-radius: 50%; background: rgb(48 35 31 / 78%); color: white; font-size: 1.25rem; cursor: pointer; transform: translateY(-50%); }
