@@ -47,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($statement->fetchColumn() !== false) {
             $errors[] = 'Există deja un cont asociat acestei adrese de email.';
-        } elseif (!smtpIsConfigured()) {
-            $errors[] = 'Verificarea emailului nu este disponibilă până la configurarea SMTP.';
+        } elseif (!mailTransportIsConfigured()) {
+            $errors[] = 'Verificarea emailului nu este disponibilă până la configurarea serviciului de email.';
         } elseif (startEmailVerification('registration', $email, [
             'name' => $name,
             'email' => $email,

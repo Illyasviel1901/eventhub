@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             createReservation((int) $user['id'], $input);
             $mailSent = sendReservationNotification($input, $user['name'], $user['email'], $venue['name']);
             setFlash(
-                $mailSent || !smtpIsConfigured() ? 'success' : 'info',
+                $mailSent || !mailTransportIsConfigured() ? 'success' : 'info',
                 $mailSent
                     ? 'Solicitarea a fost trimisă, iar echipa EventHub a fost notificată prin email.'
                     : 'Solicitarea a fost salvată și este în așteptarea verificării.'

@@ -21,9 +21,90 @@ function smtpIsConfigured(): bool
     return true;
 }
 
+function brevoIsConfigured(): bool
+{
+    return trim((string) getenv('BREVO_API_KEY')) !== ''
+        && filter_var(trim((string) getenv('MAIL_FROM')), FILTER_VALIDATE_EMAIL) !== false;
+}
+
+function mailTransportIsConfigured(): bool
+{
+    return brevoIsConfigured() || smtpIsConfigured();
+}
+
 function configuredCompanyEmail(): string
 {
     return trim((string) getenv('COMPANY_EMAIL'));
+}
+
+/**
+ * Trimite un email prin API-ul HTTPS Brevo.
+ *
+ * @param array{email: string, name?: string}|null $replyTo
+ */
+function sendBrevoEmail(
+    string $recipientEmail,
+    string $recipientName,
+    string $subject,
+    string $body,
+    ?array $replyTo = null
+): bool {
+    if (!brevoIsConfigured() || !filter_var($recipientEmail, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+
+    $senderEmail = trim((string) getenv('MAIL_FROM'));
+    $senderName = trim((string) getenv('MAIL_FROM_NAME')) ?: 'EventHub';
+    $payload = [
+        'sender' => ['email' => $senderEmail, 'name' => $senderName],
+        'to' => [['email' => $recipientEmail, 'name' => $recipientName]],
+        'subject' => $subject,
+        'textContent' => $body,
+    ];
+
+    if ($replyTo !== null && filter_var($replyTo['email'] ?? '', FILTER_VALIDATE_EMAIL)) {
+        $payload['replyTo'] = [
+            'email' => $replyTo['email'],
+            'name' => $replyTo['name'] ?? '',
+        ];
+    }
+
+    $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    if ($json === false) {
+        error_log('Eroare Brevo EventHub: conținutul emailului nu a putut fi serializat.');
+        return false;
+    }
+
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'POST',
+            'header' => [
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'api-key: ' . trim((string) getenv('BREVO_API_KEY')),
+            ],
+            'content' => $json,
+            'timeout' => 8,
+            'ignore_errors' => true,
+        ],
+    ]);
+
+    $response = @file_get_contents('https://api.brevo.com/v3/smtp/email', false, $context);
+    $responseHeaders = $http_response_header ?? [];
+    $statusCode = 0;
+
+    if (isset($responseHeaders[0]) && preg_match('/\s(\d{3})\s/', $responseHeaders[0], $matches) === 1) {
+        $statusCode = (int) $matches[1];
+    }
+
+    if ($statusCode >= 200 && $statusCode < 300) {
+        return true;
+    }
+
+    $safeResponse = is_string($response) ? substr($response, 0, 500) : 'fără răspuns HTTP';
+    error_log("Eroare Brevo EventHub: HTTP {$statusCode}; {$safeResponse}");
+
+    return false;
 }
 
 function configuredMailer(): PHPMailer
@@ -66,7 +147,15 @@ function configuredMailer(): PHPMailer
 
 function sendRecipientEmail(string $recipientEmail, string $recipientName, string $subject, string $body): bool
 {
-    if (!smtpIsConfigured() || !filter_var($recipientEmail, FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($recipientEmail, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+
+    if (brevoIsConfigured()) {
+        return sendBrevoEmail($recipientEmail, $recipientName, $subject, $body);
+    }
+
+    if (!smtpIsConfigured()) {
         return false;
     }
 
@@ -86,7 +175,19 @@ function sendRecipientEmail(string $recipientEmail, string $recipientName, strin
 function sendCompanyEmail(string $subject, string $body, ?string $replyEmail = null, ?string $replyName = null): bool
 {
     $companyEmail = configuredCompanyEmail();
-    if (!smtpIsConfigured() || !filter_var($companyEmail, FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($companyEmail, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+
+    if (brevoIsConfigured()) {
+        $replyTo = $replyEmail !== null && filter_var($replyEmail, FILTER_VALIDATE_EMAIL)
+            ? ['email' => $replyEmail, 'name' => $replyName ?? '']
+            : null;
+
+        return sendBrevoEmail($companyEmail, 'EventHub', $subject, $body, $replyTo);
+    }
+
+    if (!smtpIsConfigured()) {
         return false;
     }
 

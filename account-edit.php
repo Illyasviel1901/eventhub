@@ -27,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if ($errors === [] && $email !== strtolower((string) $user['email'])) {
-            if (!smtpIsConfigured()) {
-                $errors[] = 'Schimbarea emailului necesită configurarea SMTP pentru trimiterea codului.';
+            if (!mailTransportIsConfigured()) {
+                $errors[] = 'Schimbarea emailului necesită configurarea serviciului de email pentru trimiterea codului.';
             } elseif (startEmailVerification('email_change', $email, [
                 'user_id' => (int) $user['id'],
                 'name' => $name,

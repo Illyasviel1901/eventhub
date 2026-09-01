@@ -47,6 +47,7 @@ Configurează în serviciul web:
 APP_ENV=production
 APP_URL=https://DOMENIUL-RAILWAY
 MYSQL_URL=<referință la MYSQL_URL din serviciul MySQL>
+BREVO_API_KEY=<cheie API Brevo, introdusă ca secret>
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=gomesjohn929@gmail.com
