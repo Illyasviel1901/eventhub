@@ -1,0 +1,9 @@
+{
+    "name": "catalin-sirghi/eventhub",
+    "description": "Aplicație web PHP pentru prezentarea locațiilor și gestionarea solicitărilor de evenimente.",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}

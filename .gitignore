@@ -1,0 +1,17 @@
+# Fișiere locale cu parole și alte date sensibile
+.env
+.env.*
+!.env.example
+
+# Dependențe instalate de Composer
+/vendor/
+
+# Fișiere generate local
+/reports/*
+!/reports/.gitkeep
+
+# Fișiere ale editorului și sistemului de operare
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
