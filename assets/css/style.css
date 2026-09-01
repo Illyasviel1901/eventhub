@@ -227,6 +227,7 @@ h3 { font-size: 1.25rem; }
 .reservation-card { padding: clamp(1.5rem, 4vw, 2.3rem); border: 1px solid var(--line); border-radius: 1rem; background: white; box-shadow: 0 8px 30px rgb(87 35 31 / 7%); }
 .reservation-card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; }
 .reservation-card-heading h2 { margin-bottom: 1.3rem; font-size: 2rem; }
+.reservation-cancel-form { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
 .status-badge { display: inline-flex; align-items: center; padding: .35rem .7rem; border-radius: 99px; font-size: .76rem; font-weight: 700; white-space: nowrap; }
 .status-pending { background: #f6e5be; color: #765116; }
 .status-approved { background: #ead8cf; color: #7b2429; }

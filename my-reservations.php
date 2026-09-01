@@ -42,6 +42,13 @@ require __DIR__ . '/includes/header.php';
                 <?php if ($reservation['status'] !== 'REJECTED' && $forecast !== null): ?>
                     <div class="reservation-weather reservation-weather-inline"><div><p class="eyebrow">Prognoză Open-Meteo</p><h3><?= e($forecast['description']) ?> în <?= e($forecast['city']) ?></h3><p><?= e(number_format($forecast['temperature_min'], 1, ',', '')) ?>°C – <?= e(number_format($forecast['temperature_max'], 1, ',', '')) ?>°C · ploaie <?= (int) $forecast['precipitation_probability'] ?>% · vânt <?= e(number_format($forecast['wind_speed'], 1, ',', '')) ?> km/h</p></div></div>
                 <?php endif; ?>
+                <?php if ($reservation['status'] === 'PENDING'): ?>
+                    <form class="reservation-cancel-form" method="post" action="reservation-cancel.php" data-confirm="Sigur dorești să anulezi această solicitare? Acțiunea nu poate fi anulată.">
+                        <input type="hidden" name="csrf_token" value="<?= e(csrfToken()) ?>">
+                        <input type="hidden" name="id" value="<?= (int) $reservation['id'] ?>">
+                        <button class="button button-small button-danger-outline" type="submit">Anulează solicitarea</button>
+                    </form>
+                <?php endif; ?>
             </article>
         <?php endforeach; ?>
         </div>

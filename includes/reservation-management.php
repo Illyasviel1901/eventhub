@@ -212,6 +212,30 @@ function deleteReservation(int $id): void
     $statement->execute(['id' => $id]);
 }
 
+/** @return array{success: bool, message: string} */
+function cancelPendingReservation(int $id, int $userId): array
+{
+    $statement = db()->prepare(
+        "DELETE FROM reservations
+         WHERE id = :id AND user_id = :user_id AND status = 'PENDING'"
+    );
+    $statement->execute(['id' => $id, 'user_id' => $userId]);
+
+    if ($statement->rowCount() === 1) {
+        return ['success' => true, 'message' => 'Solicitarea a fost anulată.'];
+    }
+
+    $check = db()->prepare('SELECT user_id, status FROM reservations WHERE id = :id');
+    $check->execute(['id' => $id]);
+    $reservation = $check->fetch();
+
+    if ($reservation === false || (int) $reservation['user_id'] !== $userId) {
+        return ['success' => false, 'message' => 'Solicitarea nu a fost găsită.'];
+    }
+
+    return ['success' => false, 'message' => 'Numai solicitările în așteptare pot fi anulate.'];
+}
+
 /** @return array{success: bool, message: string, reservation?: array<string, mixed>} */
 function decidePendingReservation(int $id, string $decision): array
 {

@@ -33,6 +33,7 @@ require dirname(__DIR__) . '/includes/header.php';
 <form method="post" action="reservation-status.php" data-confirm="Aprobi această cerere?"><input type="hidden" name="csrf_token" value="<?= e(csrfToken()) ?>"><input type="hidden" name="id" value="<?= (int) $reservation['id'] ?>"><input type="hidden" name="decision" value="APPROVED"><button class="button button-small button-approve" type="submit">Aprobă</button></form>
 <form method="post" action="reservation-status.php" data-confirm="Respingi această cerere?"><input type="hidden" name="csrf_token" value="<?= e(csrfToken()) ?>"><input type="hidden" name="id" value="<?= (int) $reservation['id'] ?>"><input type="hidden" name="decision" value="REJECTED"><button class="button button-small button-danger-outline" type="submit">Respinge</button></form>
 <?php endif; ?>
+<form method="post" action="reservation-delete.php" data-confirm="Sigur dorești să ștergi definitiv cererea «<?= e($reservation['event_name']) ?>»? Această acțiune nu poate fi anulată."><input type="hidden" name="csrf_token" value="<?= e(csrfToken()) ?>"><input type="hidden" name="id" value="<?= (int) $reservation['id'] ?>"><button class="button button-small button-danger-outline" type="submit">Șterge</button></form>
 </div></td>
 </tr><?php endforeach; ?>
 </tbody></table></div>
