@@ -14,6 +14,13 @@
     <label for="capacity">Capacitate</label>
     <input id="capacity" name="capacity" type="number" min="1" step="1" value="<?= e($venueInput['capacity']) ?>" required>
 </div>
+<?php if (($allowImageUpload ?? false) === true): ?>
+    <div class="form-group">
+        <label for="images">Imagini pentru galerie <span class="optional-label">(opțional)</span></label>
+        <input id="images" name="images[]" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+        <small>Selectează maximum 5 imagini JPEG, PNG sau WebP, de cel mult 5 MB fiecare. Fișierele sunt validate pe server și păstrate în baza de date.</small>
+    </div>
+<?php endif; ?>
 <div class="form-actions">
     <button class="button button-primary" type="submit"><?= e($submitLabel) ?></button>
     <a class="button button-secondary" href="venues.php">Anulează</a>

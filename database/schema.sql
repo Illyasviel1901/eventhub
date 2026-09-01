@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS venue_images (
     id INT AUTO_INCREMENT PRIMARY KEY,
     venue_id INT NOT NULL,
     image_path VARCHAR(255) NOT NULL,
+    image_data MEDIUMBLOB NULL,
+    mime_type VARCHAR(100) NULL,
     alt_text VARCHAR(255) NOT NULL,
     sort_order INT NOT NULL DEFAULT 0,
 

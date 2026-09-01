@@ -1,34 +1,31 @@
--- Date inițiale EventHub
--- Scriptul poate fi rulat din nou fără să dubleze înregistrările.
--- Parola contului ADMIN este stocată exclusiv ca hash generat cu password_hash().
+-- Migrare EventHub: fotografii noi pentru locații și suport pentru upload ADMIN
+-- Se rulează pe baza existentă după deploymentul codului care conține endpointul venue-image.php.
+-- Nu modifică utilizatorii, rezervările sau datele locațiilor.
 
 SET NAMES utf8mb4;
 
-INSERT INTO users (name, email, password, role)
-VALUES (
-    'Administrator EventHub',
-    'admin@eventhub.local',
-    '$2y$12$Os.dpo6H3RkBSgufkzympOeiJFIf5AD5bvzmpKCuH5Ez7a6kHO8w.',
-    'ADMIN'
-)
-ON DUPLICATE KEY UPDATE
-    name = VALUES(name),
-    password = VALUES(password),
-    role = VALUES(role);
+SET @add_image_data = IF(
+    (SELECT COUNT(*) FROM information_schema.COLUMNS
+     WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'venue_images' AND COLUMN_NAME = 'image_data') = 0,
+    'ALTER TABLE venue_images ADD COLUMN image_data MEDIUMBLOB NULL AFTER image_path',
+    'SELECT 1'
+);
+PREPARE add_image_data_statement FROM @add_image_data;
+EXECUTE add_image_data_statement;
+DEALLOCATE PREPARE add_image_data_statement;
 
-INSERT INTO venues (name, description, address, capacity)
-VALUES
-    ('Palatul Bragadiru', 'Palat istoric cu saloane ample, potrivit pentru nunți, gale și recepții elegante.', 'Calea Rahovei 147-153, București', 400),
-    ('JW Marriott Bucharest Grand Hotel', 'Hotel de cinci stele cu săli modulare pentru nunți, conferințe și evenimente corporate.', 'Calea 13 Septembrie 90, București', 800),
-    ('InterContinental Athénée Palace Bucharest', 'Hotel emblematic în centrul Capitalei, cu saloane istorice pentru recepții și evenimente premium.', 'Strada Episcopiei 1-3, București', 300),
-    ('Radisson Blu Hotel Bucharest', 'Spațiu central cu săli moderne pentru conferințe, gale, lansări și evenimente private.', 'Calea Victoriei 63-81, București', 500),
-    ('Stejarii Country Club', 'Complex premium în nordul Bucureștiului, potrivit pentru ceremonii, recepții și evenimente în aer liber.', 'Strada Jandarmeriei 14A, București', 250)
-ON DUPLICATE KEY UPDATE
-    description = VALUES(description),
-    address = VALUES(address),
-    capacity = VALUES(capacity);
+SET @add_mime_type = IF(
+    (SELECT COUNT(*) FROM information_schema.COLUMNS
+     WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'venue_images' AND COLUMN_NAME = 'mime_type') = 0,
+    'ALTER TABLE venue_images ADD COLUMN mime_type VARCHAR(100) NULL AFTER image_data',
+    'SELECT 1'
+);
+PREPARE add_mime_type_statement FROM @add_mime_type;
+EXECUTE add_mime_type_statement;
+DEALLOCATE PREPARE add_mime_type_statement;
 
--- Curăță numai vechile ilustrații SVG; imaginile încărcate de ADMIN sunt păstrate.
+-- Elimină doar ilustrațiile statice vechi ale celor cinci locații standard.
+-- Imaginile încărcate de administratori (image_data IS NOT NULL) sunt păstrate.
 DELETE vi
 FROM venue_images vi
 JOIN venues v ON v.id = vi.venue_id
@@ -39,8 +36,7 @@ WHERE v.name IN (
     'Radisson Blu Hotel Bucharest',
     'Stejarii Country Club'
 )
-AND vi.image_data IS NULL
-AND vi.image_path LIKE '%.svg';
+AND vi.image_data IS NULL;
 
 INSERT INTO venue_images (venue_id, image_path, image_data, mime_type, alt_text, sort_order)
 SELECT v.id, images.image_path, NULL, 'image/png', images.alt_text, images.sort_order

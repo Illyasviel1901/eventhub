@@ -87,7 +87,7 @@ Scripturile SQL nu creează, nu șterg și nu redenumesc baza de date. Ele lucre
 1. Copiază `.env.example` ca `.env`.
 2. Completează variabilele `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` și `DB_PASSWORD`.
 3. Activează extensia PHP `pdo_mysql`.
-4. Pentru o instalare nouă, importă întâi `database/schema.sql`, apoi `database/seed.sql`. Pentru o bază existentă fără galerii, rulează `database/migrations/2026-09-01-add-venue-images.sql`, apoi `database/seed.sql`.
+4. Pentru o instalare nouă, importă întâi `database/schema.sql`, apoi `database/seed.sql`. Pentru baza Railway existentă, migrarea curentă este `database/migrations/2026-09-02-replace-venue-images-and-enable-uploads.sql`.
 5. Pornește aplicația din rădăcina proiectului:
 
 ```bash
@@ -123,7 +123,7 @@ Exporturile XLSX sunt arhive OOXML valide și includ locațiile sau cererile. Im
 
 ## Multimedia și SEO
 
-Fiecare locație include o galerie multimedia cu patru ilustrații SVG originale, stocate local și asociate prin tabelul `venue_images`. Galeria are imagine principală, miniaturi, navigare cu săgeți și tastatură, texte alternative descriptive și `loading="lazy"` pentru miniaturi. Ilustrațiile sunt generate pentru proiect și sunt marcate transparent ca nefiind fotografii oficiale ale locațiilor reale.
+Fiecare dintre locațiile inițiale include o galerie multimedia cu două fotografii PNG locale, asociate prin tabelul `venue_images`. Galeria are imagine principală, miniaturi, navigare cu săgeți și tastatură, texte alternative descriptive și `loading="lazy"` pentru miniaturi. La crearea unei locații, administratorul poate încărca opțional până la cinci imagini JPEG, PNG sau WebP de maximum 5 MB fiecare. Uploadurile sunt validate după conținut și stocate ca date binare în MySQL, astfel încât persistă după redeployurile Railway; `venue-image.php` le servește public cu MIME verificat și antete de cache.
 
 Paginile publice au titluri și descrieri specifice, URL canonical, Open Graph, Twitter Card și imagine socială 1200×630. Pagina principală publică date structurate `Organization`, catalogul publică `CollectionPage`/`ItemList`, iar fiecare locație publică `EventVenue` și `PostalAddress`. Paginile de cont, autentificare și administrare primesc `noindex, nofollow`. `robots.txt` exclude zonele private, iar `sitemap.php` generează dinamic URL-urile celor cinci locații; `sitemap.xml` este instantaneul local și trebuie regenerat cu URL-ul public la publicarea pe Railway.
 

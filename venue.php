@@ -94,7 +94,7 @@ require __DIR__ . '/includes/header.php';
                                 </button>
                             <?php endforeach; ?>
                         </div>
-                        <p class="gallery-disclaimer">Imagini ilustrative originale, generate pentru proiectul EventHub; nu sunt fotografii oficiale ale locației.</p>
+                        <p class="gallery-disclaimer">Galerie foto a locației.</p>
                     </div>
                 <?php else: ?>
                     <div class="detail-visual" aria-hidden="true"><span><?= e(substr($venue['name'], 0, 1)) ?></span></div>
