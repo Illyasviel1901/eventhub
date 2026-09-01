@@ -33,6 +33,12 @@ if ($venueId === false || $venueId === null || $selectedDate === false || $selec
     exit;
 }
 
+if ($selectedDate < new DateTimeImmutable('tomorrow')) {
+    http_response_code(422);
+    echo json_encode(['error' => 'Data evenimentului trebuie să fie cel puțin ziua următoare.']);
+    exit;
+}
+
 $venue = getVenueById($venueId);
 if ($venue === null) {
     http_response_code(404);

@@ -12,7 +12,7 @@
         <?php foreach ($venues as $venueOption): ?><option value="<?= (int) $venueOption['id'] ?>"<?= $input['venue_id'] === (string) $venueOption['id'] ? ' selected' : '' ?>><?= e($venueOption['name']) ?> — max. <?= (int) $venueOption['capacity'] ?> persoane</option><?php endforeach; ?>
     </select>
 </div>
-<div class="form-group"><label for="event-date">Data evenimentului</label><input id="event-date" name="event_date" type="date" min="<?= date('Y-m-d') ?>" value="<?= e($input['event_date']) ?>" required></div>
+<div class="form-group"><label for="event-date">Data evenimentului</label><input id="event-date" name="event_date" type="date" min="<?= e(reservationEarliestDate()) ?>" value="<?= e($input['event_date']) ?>" required></div>
 <div class="form-group"><label for="event-name">Numele sau tipul evenimentului</label><input id="event-name" name="event_name" type="text" minlength="2" maxlength="100" value="<?= e($input['event_name']) ?>" required></div>
 <div class="form-group"><label for="attendees">Număr de participanți</label><input id="attendees" name="attendees_count" type="number" min="1" step="1" value="<?= e($input['attendees_count']) ?>" required></div>
 <div class="form-group"><label for="details">Detalii</label><textarea id="details" name="details" maxlength="5000" rows="7" required><?= e($input['details']) ?></textarea></div>

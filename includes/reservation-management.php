@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 const RESERVATION_STATUSES = ['PENDING', 'APPROVED', 'REJECTED'];
 
+function reservationEarliestDate(): string
+{
+    return (new DateTimeImmutable('tomorrow'))->format('Y-m-d');
+}
+
 /** @return array<int, array{id: int, name: string, email: string}> */
 function getReservationUsers(): array
 {
@@ -124,8 +129,8 @@ function validateReservationInput(array $input, bool $admin, ?int $exceptReserva
     $date = DateTimeImmutable::createFromFormat('!Y-m-d', $input['event_date']);
     if ($date === false || $date->format('Y-m-d') !== $input['event_date']) {
         $errors[] = 'Selectează o dată validă.';
-    } elseif ($date < new DateTimeImmutable('today')) {
-        $errors[] = 'Data evenimentului nu poate fi în trecut.';
+    } elseif ($date < new DateTimeImmutable('tomorrow')) {
+        $errors[] = 'Data evenimentului trebuie să fie cel puțin ziua următoare.';
     }
 
     if (strlen($input['event_name']) < 2 || strlen($input['event_name']) > 100) {

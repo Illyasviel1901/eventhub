@@ -81,6 +81,16 @@ if (reservationDate && reservationWeather && dateFeedback) {
             return;
         }
 
+        const earliestDate = reservationDate.min;
+        if (earliestDate && selectedDate < earliestDate) {
+            reservationDate.value = '';
+            reservationDate.setCustomValidity('Data evenimentului trebuie să fie cel puțin ziua următoare.');
+            dateFeedback.textContent = 'Alege o dată începând cu ziua următoare.';
+            dateFeedback.className = 'date-feedback is-unavailable';
+            hideWeather();
+            return;
+        }
+
         if (unavailableDates.includes(selectedDate)) {
             reservationDate.value = '';
             reservationDate.setCustomValidity('Data selectată este deja ocupată.');
