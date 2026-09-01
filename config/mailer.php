@@ -28,13 +28,29 @@ function configuredCompanyEmail(): string
 
 function configuredMailer(): PHPMailer
 {
+    $smtpHost = trim((string) getenv('SMTP_HOST'));
+    $smtpIpv4Addresses = gethostbynamel($smtpHost);
+    $connectionHost = is_array($smtpIpv4Addresses) && isset($smtpIpv4Addresses[0])
+        ? $smtpIpv4Addresses[0]
+        : $smtpHost;
+
     $mail = new PHPMailer(true);
     $mail->isSMTP();
-    $mail->Host = (string) getenv('SMTP_HOST');
+    $mail->Host = $connectionHost;
     $mail->Port = (int) getenv('SMTP_PORT');
     $mail->SMTPAuth = true;
     $mail->Username = (string) getenv('SMTP_USER');
     $mail->Password = (string) getenv('SMTP_PASSWORD');
+    $mail->Timeout = 8;
+    $mail->getSMTPInstance()->Timelimit = 8;
+    $mail->SMTPOptions = [
+        'ssl' => [
+            'peer_name' => $smtpHost,
+            'verify_peer' => true,
+            'verify_peer_name' => true,
+            'allow_self_signed' => false,
+        ],
+    ];
     $encryption = strtolower(trim((string) getenv('SMTP_ENCRYPTION')));
 
     if (in_array($encryption, ['tls', 'ssl'], true)) {

@@ -8,7 +8,7 @@ INSERT INTO users (name, email, password, role)
 VALUES (
     'Administrator EventHub',
     'admin@eventhub.local',
-    '$2y$12$lB4r2X6p9ahQzXExPErHROz8VcIEJ8RnGg1RPFf.a/fOS/Bv7lBTK',
+    '$2y$12$Os.dpo6H3RkBSgufkzympOeiJFIf5AD5bvzmpKCuH5Ez7a6kHO8w.',
     'ADMIN'
 )
 ON DUPLICATE KEY UPDATE
