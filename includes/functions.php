@@ -64,6 +64,20 @@ function getVenueImages(int $venueId): array
     }
 }
 
+function venueImageUrl(string $path): string
+{
+    if (!str_starts_with($path, 'assets/')) {
+        return $path;
+    }
+
+    $absolutePath = dirname(__DIR__) . '/' . $path;
+    if (!is_file($absolutePath)) {
+        return $path;
+    }
+
+    return $path . '?v=' . (string) filemtime($absolutePath);
+}
+
 /** @return array<int, string> */
 function getUnavailableDates(int $venueId): array
 {

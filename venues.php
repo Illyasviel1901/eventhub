@@ -64,7 +64,7 @@ require __DIR__ . '/includes/header.php';
                 <?php foreach ($venues as $index => $venue): ?>
                     <article class="venue-card">
                         <?php if (!empty($venue['main_image'])): ?>
-                            <img class="venue-card-image" src="<?= e($venue['main_image']) ?>" alt="<?= e((string) ($venue['main_image_alt'] ?? 'Imagine ilustrativă a locației')) ?>" width="1600" height="1000" loading="lazy">
+                            <img class="venue-card-image" src="<?= e(venueImageUrl((string) $venue['main_image'])) ?>" alt="<?= e((string) ($venue['main_image_alt'] ?? 'Imagine ilustrativă a locației')) ?>" width="1600" height="1000" loading="lazy">
                         <?php else: ?>
                             <div class="venue-image venue-image-<?= ($index % 3) + 1 ?>" aria-hidden="true"><span><?= e(substr($venue['name'], 0, 1)) ?></span></div>
                         <?php endif; ?>

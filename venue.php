@@ -33,7 +33,7 @@ $currentPage = 'venues';
 $seoIndexable = $venue !== null;
 if ($venue !== null) {
     $venueImageUrls = array_map(
-        static fn (array $image): string => rtrim((string) environment('APP_URL', 'http://127.0.0.1:8000'), '/') . '/' . ltrim($image['image_path'], '/'),
+        static fn (array $image): string => rtrim((string) environment('APP_URL', 'http://127.0.0.1:8000'), '/') . '/' . ltrim(venueImageUrl((string) $image['image_path']), '/'),
         $venueImages
     );
     $structuredData = [
@@ -84,13 +84,13 @@ require __DIR__ . '/includes/header.php';
                     <div class="venue-gallery" data-gallery>
                         <div class="gallery-stage">
                             <button class="gallery-arrow gallery-prev" type="button" data-gallery-prev aria-label="Imaginea anterioară">←</button>
-                            <img class="gallery-main-image" data-gallery-main src="<?= e($mainImage['image_path']) ?>" alt="<?= e($mainImage['alt_text']) ?>" width="1600" height="1000">
+                            <img class="gallery-main-image" data-gallery-main src="<?= e(venueImageUrl((string) $mainImage['image_path'])) ?>" alt="<?= e($mainImage['alt_text']) ?>" width="1600" height="1000">
                             <button class="gallery-arrow gallery-next" type="button" data-gallery-next aria-label="Imaginea următoare">→</button>
                         </div>
                         <div class="gallery-thumbnails" role="list" aria-label="Imaginile locației">
                             <?php foreach ($venueImages as $imageIndex => $image): ?>
-                                <button class="gallery-thumbnail<?= $imageIndex === 0 ? ' is-active' : '' ?>" type="button" data-gallery-thumbnail data-src="<?= e($image['image_path']) ?>" data-alt="<?= e($image['alt_text']) ?>" aria-label="Afișează: <?= e($image['alt_text']) ?>" aria-pressed="<?= $imageIndex === 0 ? 'true' : 'false' ?>">
-                                    <img src="<?= e($image['image_path']) ?>" alt="" width="240" height="150" loading="lazy">
+                                <button class="gallery-thumbnail<?= $imageIndex === 0 ? ' is-active' : '' ?>" type="button" data-gallery-thumbnail data-src="<?= e(venueImageUrl((string) $image['image_path'])) ?>" data-alt="<?= e($image['alt_text']) ?>" aria-label="Afișează: <?= e($image['alt_text']) ?>" aria-pressed="<?= $imageIndex === 0 ? 'true' : 'false' ?>">
+                                    <img src="<?= e(venueImageUrl((string) $image['image_path'])) ?>" alt="" width="240" height="150" loading="lazy">
                                 </button>
                             <?php endforeach; ?>
                         </div>
