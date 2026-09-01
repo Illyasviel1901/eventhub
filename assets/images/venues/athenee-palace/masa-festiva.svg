@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+<title id="title">Ilustrație aranjament festiv — InterContinental Athénée Palace Bucharest</title><desc id="desc">Imagine originală generată pentru demonstrația EventHub.</desc>
+<defs><linearGradient id="bg21" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8eddc"/><stop offset="1" stop-color="#d4a45f" stop-opacity=".58"/></linearGradient><pattern id="p21" width="52" height="52" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2" fill="#9b2733" opacity=".12"/></pattern></defs>
+<rect width="1600" height="1000" fill="url(#bg21)"/><rect width="1600" height="1000" fill="url(#p21)"/>
+<path d="M0 170Q400 90 800 170T1600 160V0H0Z" fill="#9b2733" opacity=".9"/>
+
+    <ellipse cx="800" cy="690" rx="510" ry="150" fill="#f8eddc" stroke="#d4a45f" stroke-width="18"/>
+    <ellipse cx="800" cy="630" rx="420" ry="115" fill="#9b2733" opacity=".22"/>
+    <g fill="#d4a45f"><circle cx="430" cy="590" r="34"/><circle cx="570" cy="635" r="34"/><circle cx="710" cy="590" r="34"/><circle cx="850" cy="635" r="34"/><circle cx="990" cy="590" r="34"/><circle cx="1130" cy="635" r="34"/></g>
+    <path d="M800 590V340" stroke="#d4a45f" stroke-width="18"/><g fill="#9b2733"><circle cx="745" cy="340" r="52"/><circle cx="820" cy="300" r="62"/><circle cx="875" cy="355" r="48"/></g>
+<rect x="0" y="840" width="1600" height="160" fill="#332326" opacity=".92"/>
+<circle cx="120" cy="920" r="42" fill="#9b2733"/><path d="M99 920h42M120 899v42" stroke="#f8eddc" stroke-width="7"/>
+</svg>

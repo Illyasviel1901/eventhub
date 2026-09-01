@@ -8,11 +8,15 @@ require_once __DIR__ . '/includes/auth.php';
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
 $venue = null;
+$venueImages = [];
 $loadError = false;
 
 if ($id !== false && $id !== null) {
     try {
         $venue = getVenueById($id);
+        if ($venue !== null) {
+            $venueImages = getVenueImages((int) $venue['id']);
+        }
     } catch (Throwable $exception) {
         error_log($exception->getMessage());
         $loadError = true;
@@ -28,6 +32,10 @@ $pageDescription = $venue === null ? 'Locația solicitată nu a fost găsită.' 
 $currentPage = 'venues';
 $seoIndexable = $venue !== null;
 if ($venue !== null) {
+    $venueImageUrls = array_map(
+        static fn (array $image): string => rtrim((string) environment('APP_URL', 'http://127.0.0.1:8000'), '/') . '/' . ltrim($image['image_path'], '/'),
+        $venueImages
+    );
     $structuredData = [
         '@context' => 'https://schema.org',
         '@type' => 'EventVenue',
@@ -35,6 +43,7 @@ if ($venue !== null) {
         'description' => $venue['description'],
         'url' => rtrim((string) environment('APP_URL', 'http://127.0.0.1:8000'), '/') . '/venue.php?id=' . (int) $venue['id'],
         'maximumAttendeeCapacity' => (int) $venue['capacity'],
+        'image' => $venueImageUrls,
         'address' => [
             '@type' => 'PostalAddress',
             'streetAddress' => trim(str_replace(', București', '', (string) $venue['address'])),
@@ -70,7 +79,26 @@ require __DIR__ . '/includes/header.php';
                         <a class="button button-primary" href="reservation-create.php?venue_id=<?= (int) $venue['id'] ?>">Solicită această locație</a>
                     <?php endif; ?>
                 </div>
-                <div class="detail-visual" aria-hidden="true"><span><?= e(substr($venue['name'], 0, 1)) ?></span></div>
+                <?php if ($venueImages !== []): ?>
+                    <?php $mainImage = $venueImages[0]; ?>
+                    <div class="venue-gallery" data-gallery>
+                        <div class="gallery-stage">
+                            <button class="gallery-arrow gallery-prev" type="button" data-gallery-prev aria-label="Imaginea anterioară">←</button>
+                            <img class="gallery-main-image" data-gallery-main src="<?= e($mainImage['image_path']) ?>" alt="<?= e($mainImage['alt_text']) ?>" width="1600" height="1000">
+                            <button class="gallery-arrow gallery-next" type="button" data-gallery-next aria-label="Imaginea următoare">→</button>
+                        </div>
+                        <div class="gallery-thumbnails" role="list" aria-label="Imaginile locației">
+                            <?php foreach ($venueImages as $imageIndex => $image): ?>
+                                <button class="gallery-thumbnail<?= $imageIndex === 0 ? ' is-active' : '' ?>" type="button" data-gallery-thumbnail data-src="<?= e($image['image_path']) ?>" data-alt="<?= e($image['alt_text']) ?>" aria-label="Afișează: <?= e($image['alt_text']) ?>" aria-pressed="<?= $imageIndex === 0 ? 'true' : 'false' ?>">
+                                    <img src="<?= e($image['image_path']) ?>" alt="" width="240" height="150" loading="lazy">
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
+                        <p class="gallery-disclaimer">Imagini ilustrative originale, generate pentru proiectul EventHub; nu sunt fotografii oficiale ale locației.</p>
+                    </div>
+                <?php else: ?>
+                    <div class="detail-visual" aria-hidden="true"><span><?= e(substr($venue['name'], 0, 1)) ?></span></div>
+                <?php endif; ?>
             </div>
         </div>
     </section>

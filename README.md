@@ -20,7 +20,7 @@ Etapa 16 — proiect pregătit pentru GitHub și Railway. Imaginea Docker de pro
 
 ## Structură
 
-- `index.php` — pagina principală, locațiile recomandate și prezentarea video HTML5;
+- `index.php` — pagina principală și locațiile recomandate;
 - `venues.php` — lista dinamică a locațiilor;
 - `venue.php` — detaliile și disponibilitatea unei locații;
 - `register.php` și `verify-email.php` — înregistrarea cu verificarea adresei prin cod;
@@ -58,7 +58,6 @@ Etapa 16 — proiect pregătit pentru GitHub și Railway. Imaginea Docker de pro
 - `includes/xlsx.php` — citirea și generarea fișierelor XLSX;
 - `includes/pdf.php` — generarea raportului PDF;
 - `assets/media/eventhub-prezentare.mp4` — materialul multimedia original;
-- `assets/media/eventhub-prezentare-ro.vtt` — subtitrările materialului video;
 - `robots.txt`, `sitemap.xml` și `sitemap.php` — controlul indexării și harta statică/dinamică a paginilor publice;
 - `database/schema.sql` — tabele, relații, constrângeri și indexuri;
 - `database/seed.sql` — contul ADMIN și cinci locații reale din București;
@@ -76,6 +75,7 @@ Schema conține tabelele:
 
 - `users` — utilizatori cu rol `USER` sau `ADMIN`;
 - `venues` — locațiile oferite spre închiriere;
+- `venue_images` — imaginile galeriilor, în relație N:1 cu locațiile;
 - `reservations` — cererile de rezervare și starea lor;
 - `contact_messages` — mesajele formularului de contact;
 - `page_visits` — pagina și momentul accesării, folosite pentru statisticile interne.
@@ -87,7 +87,7 @@ Scripturile SQL nu creează, nu șterg și nu redenumesc baza de date. Ele lucre
 1. Copiază `.env.example` ca `.env`.
 2. Completează variabilele `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` și `DB_PASSWORD`.
 3. Activează extensia PHP `pdo_mysql`.
-4. Importă întâi `database/schema.sql`, apoi `database/seed.sql` în baza `eventhub`.
+4. Pentru o instalare nouă, importă întâi `database/schema.sql`, apoi `database/seed.sql`. Pentru o bază existentă fără galerii, rulează `database/migrations/2026-09-01-add-venue-images.sql`, apoi `database/seed.sql`.
 5. Pornește aplicația din rădăcina proiectului:
 
 ```bash
@@ -123,7 +123,7 @@ Exporturile XLSX sunt arhive OOXML valide și includ locațiile sau cererile. Im
 
 ## Multimedia și SEO
 
-Pagina principală include un video MP4 original de 12 secunde, generat pentru proiect, cu poster JPEG, controale HTML5, fallback textual și subtitrări WebVTT în limba română. Video-ul nu folosește YouTube, iframe-uri sau materiale externe protejate.
+Fiecare locație include o galerie multimedia cu patru ilustrații SVG originale, stocate local și asociate prin tabelul `venue_images`. Galeria are imagine principală, miniaturi, navigare cu săgeți și tastatură, texte alternative descriptive și `loading="lazy"` pentru miniaturi. Ilustrațiile sunt generate pentru proiect și sunt marcate transparent ca nefiind fotografii oficiale ale locațiilor reale.
 
 Paginile publice au titluri și descrieri specifice, URL canonical, Open Graph, Twitter Card și imagine socială 1200×630. Pagina principală publică date structurate `Organization`, catalogul publică `CollectionPage`/`ItemList`, iar fiecare locație publică `EventVenue` și `PostalAddress`. Paginile de cont, autentificare și administrare primesc `noindex, nofollow`. `robots.txt` exclude zonele private, iar `sitemap.php` generează dinamic URL-urile celor cinci locații; `sitemap.xml` este instantaneul local și trebuie regenerat cu URL-ul public la publicarea pe Railway.
 

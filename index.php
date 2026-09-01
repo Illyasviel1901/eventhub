@@ -46,23 +46,6 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<section class="section multimedia-section" aria-labelledby="eventhub-video-title">
-    <div class="shell multimedia-grid">
-        <div>
-            <p class="eyebrow">Prezentare multimedia</p>
-            <h2 id="eventhub-video-title">EventHub în 12 secunde</h2>
-            <p>Explorează locațiile, verifică data evenimentului și trimite cererea către echipa EventHub.</p>
-        </div>
-        <div class="video-frame">
-            <video controls preload="metadata" poster="assets/images/eventhub-video-poster.jpg" aria-label="Prezentare video EventHub">
-                <source src="assets/media/eventhub-prezentare.mp4" type="video/mp4">
-                <track kind="captions" srclang="ro" label="Română" src="assets/media/eventhub-prezentare-ro.vtt" default>
-                Browserul tău nu poate reda materialul video. Poți continua direct la lista locațiilor.
-            </video>
-        </div>
-    </div>
-</section>
-
 <section id="despre" class="section section-muted">
     <div class="shell">
         <div class="section-heading">
@@ -92,7 +75,11 @@ require __DIR__ . '/includes/header.php';
             <div class="venue-grid">
                 <?php foreach ($venues as $index => $venue): ?>
                     <article class="venue-card">
-                        <div class="venue-image venue-image-<?= ($index % 3) + 1 ?>" aria-hidden="true"><span><?= e(substr($venue['name'], 0, 1)) ?></span></div>
+                        <?php if (!empty($venue['main_image'])): ?>
+                            <img class="venue-card-image" src="<?= e($venue['main_image']) ?>" alt="<?= e((string) ($venue['main_image_alt'] ?? 'Imagine ilustrativă a locației')) ?>" width="1600" height="1000" loading="lazy">
+                        <?php else: ?>
+                            <div class="venue-image venue-image-<?= ($index % 3) + 1 ?>" aria-hidden="true"><span><?= e(substr($venue['name'], 0, 1)) ?></span></div>
+                        <?php endif; ?>
                         <div class="venue-card-body">
                             <p class="venue-meta"><span><?= (int) $venue['capacity'] ?> persoane</span></p>
                             <h3><?= e($venue['name']) ?></h3>

@@ -11,6 +11,35 @@ if (navigationButton && navigation) {
     });
 }
 
+document.querySelectorAll('[data-gallery]').forEach((gallery) => {
+    const mainImage = gallery.querySelector('[data-gallery-main]');
+    const thumbnails = [...gallery.querySelectorAll('[data-gallery-thumbnail]')];
+    const previousButton = gallery.querySelector('[data-gallery-prev]');
+    const nextButton = gallery.querySelector('[data-gallery-next]');
+    let activeIndex = Math.max(0, thumbnails.findIndex((thumbnail) => thumbnail.classList.contains('is-active')));
+
+    const selectImage = (index) => {
+        if (!mainImage || thumbnails.length === 0) return;
+        activeIndex = (index + thumbnails.length) % thumbnails.length;
+        const selected = thumbnails[activeIndex];
+        mainImage.src = selected.dataset.src;
+        mainImage.alt = selected.dataset.alt;
+        thumbnails.forEach((thumbnail, thumbnailIndex) => {
+            const isActive = thumbnailIndex === activeIndex;
+            thumbnail.classList.toggle('is-active', isActive);
+            thumbnail.setAttribute('aria-pressed', String(isActive));
+        });
+    };
+
+    thumbnails.forEach((thumbnail, index) => thumbnail.addEventListener('click', () => selectImage(index)));
+    previousButton?.addEventListener('click', () => selectImage(activeIndex - 1));
+    nextButton?.addEventListener('click', () => selectImage(activeIndex + 1));
+    gallery.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') selectImage(activeIndex - 1);
+        if (event.key === 'ArrowRight') selectImage(activeIndex + 1);
+    });
+});
+
 document.querySelectorAll('form[data-confirm]').forEach((form) => {
     form.addEventListener('submit', (event) => {
         const message = form.getAttribute('data-confirm');

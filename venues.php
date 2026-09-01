@@ -63,7 +63,11 @@ require __DIR__ . '/includes/header.php';
             <div class="venue-grid">
                 <?php foreach ($venues as $index => $venue): ?>
                     <article class="venue-card">
-                        <div class="venue-image venue-image-<?= ($index % 3) + 1 ?>" aria-hidden="true"><span><?= e(substr($venue['name'], 0, 1)) ?></span></div>
+                        <?php if (!empty($venue['main_image'])): ?>
+                            <img class="venue-card-image" src="<?= e($venue['main_image']) ?>" alt="<?= e((string) ($venue['main_image_alt'] ?? 'Imagine ilustrativă a locației')) ?>" width="1600" height="1000" loading="lazy">
+                        <?php else: ?>
+                            <div class="venue-image venue-image-<?= ($index % 3) + 1 ?>" aria-hidden="true"><span><?= e(substr($venue['name'], 0, 1)) ?></span></div>
+                        <?php endif; ?>
                         <div class="venue-card-body">
                             <p class="venue-meta"><span><?= (int) $venue['capacity'] ?> persoane</span></p>
                             <h2><?= e($venue['name']) ?></h2>

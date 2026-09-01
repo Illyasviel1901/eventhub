@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+<title id="title">Ilustrație aranjament festiv — Stejarii Country Club</title><desc id="desc">Imagine originală generată pentru demonstrația EventHub.</desc>
+<defs><linearGradient id="bg41" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eee1cf"/><stop offset="1" stop-color="#aa865e" stop-opacity=".58"/></linearGradient><pattern id="p41" width="52" height="52" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2" fill="#80303a" opacity=".12"/></pattern></defs>
+<rect width="1600" height="1000" fill="url(#bg41)"/><rect width="1600" height="1000" fill="url(#p41)"/>
+<path d="M0 170Q400 90 800 170T1600 160V0H0Z" fill="#80303a" opacity=".9"/>
+
+    <ellipse cx="800" cy="690" rx="510" ry="150" fill="#eee1cf" stroke="#aa865e" stroke-width="18"/>
+    <ellipse cx="800" cy="630" rx="420" ry="115" fill="#80303a" opacity=".22"/>
+    <g fill="#aa865e"><circle cx="430" cy="590" r="34"/><circle cx="570" cy="635" r="34"/><circle cx="710" cy="590" r="34"/><circle cx="850" cy="635" r="34"/><circle cx="990" cy="590" r="34"/><circle cx="1130" cy="635" r="34"/></g>
+    <path d="M800 590V340" stroke="#aa865e" stroke-width="18"/><g fill="#80303a"><circle cx="745" cy="340" r="52"/><circle cx="820" cy="300" r="62"/><circle cx="875" cy="355" r="48"/></g>
+<rect x="0" y="840" width="1600" height="160" fill="#26352d" opacity=".92"/>
+<circle cx="120" cy="920" r="42" fill="#80303a"/><path d="M99 920h42M120 899v42" stroke="#eee1cf" stroke-width="7"/>
+</svg>
