@@ -1,16 +1,9 @@
-# Fișiere locale cu parole și alte date sensibile
+# Configurație locală și secrete
 .env
 .env.*
 !.env.example
 
-# Dependențe instalate de Composer
-/vendor/
-
-# Fișiere generate local
-/reports/*
-!/reports/.gitkeep
-
-# Fișiere ale editorului și sistemului de operare
+# Setări de editor și fișiere de sistem
 .vscode/
 .idea/
 .DS_Store

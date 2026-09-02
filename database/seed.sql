@@ -28,22 +28,24 @@ ON DUPLICATE KEY UPDATE
     address = VALUES(address),
     capacity = VALUES(capacity);
 
--- Curăță numai vechile ilustrații SVG; imaginile încărcate de ADMIN sunt păstrate.
-DELETE vi
-FROM venue_images vi
-JOIN venues v ON v.id = vi.venue_id
-WHERE v.name IN (
-    'Palatul Bragadiru',
-    'JW Marriott Bucharest Grand Hotel',
-    'InterContinental Athénée Palace Bucharest',
-    'Radisson Blu Hotel Bucharest',
-    'Stejarii Country Club'
-)
-AND vi.image_data IS NULL
-AND vi.image_path LIKE '%.svg';
+-- Elimină referințele statice vechi; imaginile încărcate de ADMIN sunt păstrate.
+DELETE FROM venue_images
+WHERE image_data IS NULL
+  AND image_path NOT IN (
+    'assets/images/venues/palatul-bragadiru/sala-evenimente.png',
+    'assets/images/venues/palatul-bragadiru/amenajare-interioara.png',
+    'assets/images/venues/jw-marriott/sala-evenimente.png',
+    'assets/images/venues/jw-marriott/amenajare-interioara.png',
+    'assets/images/venues/athenee-palace/sala-evenimente.png',
+    'assets/images/venues/athenee-palace/amenajare-interioara.png',
+    'assets/images/venues/radisson-blu/sala-evenimente.png',
+    'assets/images/venues/radisson-blu/amenajare-interioara.png',
+    'assets/images/venues/stejarii-country-club/sala-evenimente.png',
+    'assets/images/venues/stejarii-country-club/amenajare-interioara.png'
+  );
 
 INSERT INTO venue_images (venue_id, image_path, image_data, mime_type, alt_text, sort_order)
-SELECT v.id, images.image_path, NULL, 'image/png', images.alt_text, images.sort_order
+SELECT v.id, images.image_path, NULL, NULL, images.alt_text, images.sort_order
 FROM venues v
 JOIN (
     SELECT 'Palatul Bragadiru' venue_name, 'assets/images/venues/palatul-bragadiru/sala-evenimente.png' image_path, 'Sala de evenimente a Palatului Bragadiru din București' alt_text, 1 sort_order

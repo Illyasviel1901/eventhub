@@ -3,33 +3,14 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/environment.php';
-require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 loadEnvironment(dirname(__DIR__) . '/.env');
 
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;
-
-function smtpIsConfigured(): bool
-{
-    foreach (['SMTP_HOST', 'SMTP_PORT', 'SMTP_USER', 'SMTP_PASSWORD', 'MAIL_FROM', 'COMPANY_EMAIL'] as $key) {
-        if (trim((string) getenv($key)) === '') {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-function brevoIsConfigured(): bool
-{
-    return trim((string) getenv('BREVO_API_KEY')) !== ''
-        && filter_var(trim((string) getenv('MAIL_FROM')), FILTER_VALIDATE_EMAIL) !== false;
-}
-
 function mailTransportIsConfigured(): bool
 {
-    return brevoIsConfigured() || smtpIsConfigured();
+    return trim((string) getenv('BREVO_API_KEY')) !== ''
+        && filter_var(trim((string) getenv('MAIL_FROM')), FILTER_VALIDATE_EMAIL) !== false
+        && filter_var(trim((string) getenv('COMPANY_EMAIL')), FILTER_VALIDATE_EMAIL) !== false;
 }
 
 function configuredCompanyEmail(): string
@@ -38,7 +19,7 @@ function configuredCompanyEmail(): string
 }
 
 /**
- * Trimite un email prin API-ul HTTPS Brevo.
+ * Trimite un email text prin Brevo API folosind HTTPS.
  *
  * @param array{email: string, name?: string}|null $replyTo
  */
@@ -49,14 +30,15 @@ function sendBrevoEmail(
     string $body,
     ?array $replyTo = null
 ): bool {
-    if (!brevoIsConfigured() || !filter_var($recipientEmail, FILTER_VALIDATE_EMAIL)) {
+    if (!mailTransportIsConfigured() || !filter_var($recipientEmail, FILTER_VALIDATE_EMAIL)) {
         return false;
     }
 
-    $senderEmail = trim((string) getenv('MAIL_FROM'));
-    $senderName = trim((string) getenv('MAIL_FROM_NAME')) ?: 'EventHub';
     $payload = [
-        'sender' => ['email' => $senderEmail, 'name' => $senderName],
+        'sender' => [
+            'email' => trim((string) getenv('MAIL_FROM')),
+            'name' => trim((string) getenv('MAIL_FROM_NAME')) ?: 'EventHub',
+        ],
         'to' => [['email' => $recipientEmail, 'name' => $recipientName]],
         'subject' => $subject,
         'textContent' => $body,
@@ -107,69 +89,9 @@ function sendBrevoEmail(
     return false;
 }
 
-function configuredMailer(): PHPMailer
-{
-    $smtpHost = trim((string) getenv('SMTP_HOST'));
-    $smtpIpv4Addresses = gethostbynamel($smtpHost);
-    $connectionHost = is_array($smtpIpv4Addresses) && isset($smtpIpv4Addresses[0])
-        ? $smtpIpv4Addresses[0]
-        : $smtpHost;
-
-    $mail = new PHPMailer(true);
-    $mail->isSMTP();
-    $mail->Host = $connectionHost;
-    $mail->Port = (int) getenv('SMTP_PORT');
-    $mail->SMTPAuth = true;
-    $mail->Username = (string) getenv('SMTP_USER');
-    $mail->Password = (string) getenv('SMTP_PASSWORD');
-    $mail->Timeout = 8;
-    $mail->getSMTPInstance()->Timelimit = 8;
-    $mail->SMTPOptions = [
-        'ssl' => [
-            'peer_name' => $smtpHost,
-            'verify_peer' => true,
-            'verify_peer_name' => true,
-            'allow_self_signed' => false,
-        ],
-    ];
-    $encryption = strtolower(trim((string) getenv('SMTP_ENCRYPTION')));
-
-    if (in_array($encryption, ['tls', 'ssl'], true)) {
-        $mail->SMTPSecure = $encryption;
-    }
-
-    $mail->CharSet = PHPMailer::CHARSET_UTF8;
-    $mail->setFrom((string) getenv('MAIL_FROM'), trim((string) getenv('MAIL_FROM_NAME')) ?: 'EventHub');
-    $mail->isHTML(false);
-
-    return $mail;
-}
-
 function sendRecipientEmail(string $recipientEmail, string $recipientName, string $subject, string $body): bool
 {
-    if (!filter_var($recipientEmail, FILTER_VALIDATE_EMAIL)) {
-        return false;
-    }
-
-    if (brevoIsConfigured()) {
-        return sendBrevoEmail($recipientEmail, $recipientName, $subject, $body);
-    }
-
-    if (!smtpIsConfigured()) {
-        return false;
-    }
-
-    try {
-        $mail = configuredMailer();
-        $mail->addAddress($recipientEmail, $recipientName);
-        $mail->Subject = $subject;
-        $mail->Body = $body;
-
-        return $mail->send();
-    } catch (Exception $exception) {
-        error_log('Eroare SMTP EventHub: ' . ($mail->ErrorInfo ?? $exception->getMessage()));
-        return false;
-    }
+    return sendBrevoEmail($recipientEmail, $recipientName, $subject, $body);
 }
 
 function sendCompanyEmail(string $subject, string $body, ?string $replyEmail = null, ?string $replyName = null): bool
@@ -179,32 +101,11 @@ function sendCompanyEmail(string $subject, string $body, ?string $replyEmail = n
         return false;
     }
 
-    if (brevoIsConfigured()) {
-        $replyTo = $replyEmail !== null && filter_var($replyEmail, FILTER_VALIDATE_EMAIL)
-            ? ['email' => $replyEmail, 'name' => $replyName ?? '']
-            : null;
+    $replyTo = $replyEmail !== null && filter_var($replyEmail, FILTER_VALIDATE_EMAIL)
+        ? ['email' => $replyEmail, 'name' => $replyName ?? '']
+        : null;
 
-        return sendBrevoEmail($companyEmail, 'EventHub', $subject, $body, $replyTo);
-    }
-
-    if (!smtpIsConfigured()) {
-        return false;
-    }
-
-    try {
-        $mail = configuredMailer();
-        $mail->addAddress($companyEmail, 'EventHub');
-        if ($replyEmail !== null && filter_var($replyEmail, FILTER_VALIDATE_EMAIL)) {
-            $mail->addReplyTo($replyEmail, $replyName ?? '');
-        }
-        $mail->Subject = $subject;
-        $mail->Body = $body;
-
-        return $mail->send();
-    } catch (Exception $exception) {
-        error_log('Eroare SMTP EventHub: ' . ($mail->ErrorInfo ?? $exception->getMessage()));
-        return false;
-    }
+    return sendBrevoEmail($companyEmail, 'EventHub', $subject, $body, $replyTo);
 }
 
 /** @param array<string, string> $input */
@@ -219,6 +120,7 @@ function sendReservationNotification(array $input, string $clientName, string $c
     return sendCompanyEmail('Solicitare nouă: ' . $input['event_name'], $body, $clientEmail, $clientName);
 }
 
+/** @param array<string, mixed> $reservation */
 function sendReservationStatusEmail(array $reservation, string $status): bool
 {
     $statusText = $status === 'APPROVED' ? 'aprobată' : 'respinsă';
@@ -228,7 +130,7 @@ function sendReservationStatusEmail(array $reservation, string $status): bool
         . "Cererea dvs. pentru {$reservation['venue_name']} din {$formattedDate} a fost {$statusText}.\n\n"
         . "Eveniment: {$reservation['event_name']}\n"
         . "Status: " . ($status === 'APPROVED' ? 'APROBATĂ' : 'RESPINSĂ') . "\n\n"
-        . "Echipa EventHub";
+        . 'Echipa EventHub';
 
     return sendRecipientEmail(
         (string) $reservation['user_email'],

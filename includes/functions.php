@@ -11,22 +11,13 @@ function e(string $value): string
 /** @return array<int, array{id: int, name: string, description: string, address: string, capacity: int, main_image?: string|null, main_image_alt?: string|null}> */
 function getVenues(): array
 {
-    try {
-        $statement = db()->query(
-            'SELECT v.id, v.name, v.description, v.address, v.capacity,
-                    (SELECT vi.image_path FROM venue_images vi WHERE vi.venue_id = v.id ORDER BY vi.sort_order, vi.id LIMIT 1) AS main_image,
-                    (SELECT vi.alt_text FROM venue_images vi WHERE vi.venue_id = v.id ORDER BY vi.sort_order, vi.id LIMIT 1) AS main_image_alt
-             FROM venues v
-             ORDER BY v.name'
-        );
-    } catch (PDOException $exception) {
-        // Păstrează catalogul funcțional în timpul aplicării migrării galeriei.
-        $statement = db()->query(
-            'SELECT id, name, description, address, capacity
-             FROM venues
-             ORDER BY name'
-        );
-    }
+    $statement = db()->query(
+        'SELECT v.id, v.name, v.description, v.address, v.capacity,
+                (SELECT vi.image_path FROM venue_images vi WHERE vi.venue_id = v.id ORDER BY vi.sort_order, vi.id LIMIT 1) AS main_image,
+                (SELECT vi.alt_text FROM venue_images vi WHERE vi.venue_id = v.id ORDER BY vi.sort_order, vi.id LIMIT 1) AS main_image_alt
+         FROM venues v
+         ORDER BY v.name'
+    );
 
     return $statement->fetchAll();
 }
@@ -48,20 +39,15 @@ function getVenueById(int $id): ?array
 /** @return array<int, array{id: int, image_path: string, alt_text: string, sort_order: int}> */
 function getVenueImages(int $venueId): array
 {
-    try {
-        $statement = db()->prepare(
-            'SELECT id, image_path, alt_text, sort_order
-             FROM venue_images
-             WHERE venue_id = :venue_id
-             ORDER BY sort_order, id'
-        );
-        $statement->execute(['venue_id' => $venueId]);
+    $statement = db()->prepare(
+        'SELECT id, image_path, alt_text, sort_order
+         FROM venue_images
+         WHERE venue_id = :venue_id
+         ORDER BY sort_order, id'
+    );
+    $statement->execute(['venue_id' => $venueId]);
 
-        return $statement->fetchAll();
-    } catch (PDOException $exception) {
-        // Galeria este opțională până când migrarea este aplicată în mediul curent.
-        return [];
-    }
+    return $statement->fetchAll();
 }
 
 function venueImageUrl(string $path): string

@@ -5,9 +5,6 @@
 !.env.example
 .vscode
 .idea
-vendor
-reports/*
-!reports/.gitkeep
 docs/*.png
 .DS_Store
 Thumbs.db

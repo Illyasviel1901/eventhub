@@ -34,7 +34,7 @@ if ($scriptPath === 'venue.php' && isset($venue['id'])) {
     $canonicalPath = 'venue.php?id=' . (int) $venue['id'];
 }
 $canonicalUrl = $siteBaseUrl . '/' . ltrim($canonicalPath, '/');
-$openGraphImage = $siteBaseUrl . '/assets/images/eventhub-og.jpg';
+$openGraphImage = $siteBaseUrl . '/assets/images/venues/palatul-bragadiru/sala-evenimente.png';
 $structuredData = $structuredData ?? [
     '@context' => 'https://schema.org',
     '@type' => 'WebSite',
@@ -59,8 +59,6 @@ $structuredData = $structuredData ?? [
     <meta property="og:description" content="<?= e($pageDescription) ?>">
     <meta property="og:url" content="<?= e($canonicalUrl) ?>">
     <meta property="og:image" content="<?= e($openGraphImage) ?>">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="EventHub — locații pentru evenimente în București">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?= e($pageTitle) ?> | EventHub">
