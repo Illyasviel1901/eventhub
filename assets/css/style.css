@@ -230,7 +230,7 @@ h3 { font-size: 1.25rem; }
 .reservation-details p { margin: .4rem 0 0; color: var(--muted); }
 .contact-identity { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem .8rem; margin-bottom: 1.5rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--line); }
 .contact-identity span { width: 100%; color: var(--muted); font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-.contact-identity a { color: var(--brand); }
+.contact-identity p { margin: 0; color: var(--brand); }
 .verification-note { margin: 1.2rem 0 0; text-align: center; }
 .verification-note a { color: var(--brand); font-weight: 700; }
 .request-cta { text-align: center; }

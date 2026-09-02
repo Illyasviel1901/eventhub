@@ -58,7 +58,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 <section class="admin-page-heading"><div class="shell narrow"><p class="eyebrow">Suntem aici pentru tine</p><h1>Contactează EventHub</h1></div></section>
 <section class="section"><div class="shell narrow"><div class="form-card">
-<div class="contact-identity"><span>Trimiți ca</span><strong><?= e($user['name']) ?></strong><a href="mailto:<?= e($user['email']) ?>"><?= e($user['email']) ?></a></div>
+<div class="contact-identity"><span>Trimiți ca</span><strong><?= e($user['name']) ?></strong><p><?= e($user['email']) ?></p></div>
 <?php if ($errors !== []): ?><div class="notice notice-error notice-left" role="alert"><ul><?php foreach ($errors as $error): ?><li><?= e($error) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
 <form method="post" action="contact.php" novalidate>
 <input type="hidden" name="csrf_token" value="<?= e(csrfToken()) ?>">
