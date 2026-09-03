@@ -70,12 +70,12 @@ require dirname(__DIR__) . '/includes/header.php';
         </div>
 
         <section class="analytics-recent" aria-labelledby="recent-visits-title">
-            <div class="analytics-heading"><div><p class="eyebrow">Activitate</p><h2 id="recent-visits-title">Accesări recente</h2></div></div>
+            <div class="analytics-heading"><div><p class="eyebrow">Activitate</p><h2 id="recent-visits-title">Accesări recente</h2><p>Orele sunt afișate în fusul dispozitivului tău: <strong data-browser-timezone>se detectează…</strong></p></div></div>
             <?php if ($recentVisits === []): ?>
                 <div class="empty-state"><p>Nu există încă accesări înregistrate.</p></div>
             <?php else: ?>
                 <div class="table-wrap"><table class="admin-table"><thead><tr><th>Pagină</th><th>Momentul accesării</th></tr></thead><tbody>
-                    <?php foreach ($recentVisits as $visit): ?><tr><td><strong><?= e(analyticsPageLabel($visit['page'])) ?></strong><span class="table-sub-link"><?= e($visit['page']) ?></span></td><td><time datetime="<?= e($visit['visited_at']) ?>"><?= e((new DateTimeImmutable($visit['visited_at']))->format('d.m.Y, H:i:s')) ?></time></td></tr><?php endforeach; ?>
+                    <?php foreach ($recentVisits as $visit): ?><tr><td><strong><?= e(analyticsPageLabel($visit['page'])) ?></strong><span class="table-sub-link"><?= e($visit['page']) ?></span></td><td><time datetime="<?= e(gmdate('c', $visit['visited_at_unix'])) ?>" data-local-datetime="<?= $visit['visited_at_unix'] ?>"><?= e((new DateTimeImmutable($visit['visited_at']))->format('d.m.Y, H:i:s')) ?></time></td></tr><?php endforeach; ?>
                 </tbody></table></div>
             <?php endif; ?>
         </section>

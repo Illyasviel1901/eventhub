@@ -100,18 +100,25 @@ function visitsByDay(int $days = 7): array
     return $result;
 }
 
-/** @return array<int, array{page: string, visited_at: string}> */
+/** @return array<int, array{page: string, visited_at: string, visited_at_unix: int}> */
 function recentPageVisits(int $limit = 20): array
 {
     $limit = max(1, min($limit, 100));
     $statement = db()->query(
-        "SELECT page, visited_at
+        "SELECT page, visited_at, UNIX_TIMESTAMP(visited_at) AS visited_at_unix
          FROM page_visits
          ORDER BY visited_at DESC, id DESC
          LIMIT {$limit}"
     );
 
-    return $statement->fetchAll();
+    return array_map(
+        static fn (array $row): array => [
+            'page' => (string) $row['page'],
+            'visited_at' => (string) $row['visited_at'],
+            'visited_at_unix' => (int) $row['visited_at_unix'],
+        ],
+        $statement->fetchAll()
+    );
 }
 
 function analyticsPageLabel(string $page): string

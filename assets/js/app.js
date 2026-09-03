@@ -1,5 +1,43 @@
 'use strict';
 
+const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+const secureCookie = window.location.protocol === 'https:' ? '; Secure' : '';
+document.cookie = `eventhub_timezone=${encodeURIComponent(browserTimeZone)}; Path=/; Max-Age=31536000; SameSite=Lax${secureCookie}`;
+
+document.querySelectorAll('[data-browser-timezone]').forEach((element) => {
+    element.textContent = browserTimeZone;
+});
+
+const localDateTimeFormatter = new Intl.DateTimeFormat('ro-RO', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hourCycle: 'h23',
+});
+
+document.querySelectorAll('time[data-local-datetime]').forEach((element) => {
+    const unixTimestamp = Number(element.dataset.localDatetime);
+    const date = new Date(unixTimestamp * 1000);
+
+    if (Number.isFinite(unixTimestamp) && !Number.isNaN(date.getTime())) {
+        element.textContent = localDateTimeFormatter.format(date);
+        element.title = `${browserTimeZone} (UTC${formatTimeZoneOffset(date)})`;
+    }
+});
+
+function formatTimeZoneOffset(date) {
+    const offsetMinutes = -date.getTimezoneOffset();
+    const sign = offsetMinutes >= 0 ? '+' : '-';
+    const absoluteMinutes = Math.abs(offsetMinutes);
+    const hours = String(Math.floor(absoluteMinutes / 60)).padStart(2, '0');
+    const minutes = String(absoluteMinutes % 60).padStart(2, '0');
+
+    return `${sign}${hours}:${minutes}`;
+}
+
 const navigationButton = document.querySelector('.nav-toggle');
 const navigation = document.querySelector('.main-nav');
 

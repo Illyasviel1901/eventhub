@@ -33,9 +33,12 @@ $popularVenues = $pdo->query(
      GROUP BY v.id, v.name ORDER BY requests DESC, v.name LIMIT 5'
 )->fetchAll();
 
+$reportTimeZone = visitorTimeZone();
+$generatedAt = (new DateTimeImmutable('now'))->setTimezone($reportTimeZone);
+
 $lines = [
     'EVENTHUB - RAPORT GENERAL',
-    'Generat la: ' . date('d.m.Y H:i:s') . ' (Europe/Bucharest)',
+    'Generat la: ' . $generatedAt->format('d.m.Y H:i:s') . ' (' . $reportTimeZone->getName() . ')',
     str_repeat('-', 82),
     'SINTEZA',
     'Locatii: ' . $venueCount,
@@ -66,4 +69,4 @@ if ($reservations === []) {
     }
 }
 
-sendPdfDownload(createSimplePdf($lines), 'eventhub-raport-' . date('Y-m-d') . '.pdf');
+sendPdfDownload(createSimplePdf($lines), 'eventhub-raport-' . $generatedAt->format('Y-m-d') . '.pdf');

@@ -54,3 +54,22 @@ function environment(string $name, ?string $default = null): ?string
 
     return $value === false ? $default : $value;
 }
+
+/**
+ * Returns the visitor's browser time zone saved by JavaScript.
+ * Bucharest remains the safe fallback for the first request and invalid cookies.
+ */
+function visitorTimeZone(): DateTimeZone
+{
+    $name = (string) ($_COOKIE['eventhub_timezone'] ?? 'Europe/Bucharest');
+
+    if ($name === '' || strlen($name) > 100 || preg_match('/^[A-Za-z0-9_+\-\/]+$/', $name) !== 1) {
+        return new DateTimeZone('Europe/Bucharest');
+    }
+
+    try {
+        return new DateTimeZone($name);
+    } catch (Throwable) {
+        return new DateTimeZone('Europe/Bucharest');
+    }
+}
