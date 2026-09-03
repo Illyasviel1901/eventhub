@@ -18,7 +18,7 @@
     <div class="form-group">
         <label for="images">Imagini pentru galerie <span class="optional-label">(opțional)</span></label>
         <input id="images" name="images[]" type="file" accept="image/jpeg,image/png,image/webp" multiple>
-        <small>Selectează maximum 5 imagini JPEG, PNG sau WebP, de cel mult 5 MB fiecare. Fișierele sunt validate pe server și păstrate în baza de date.</small>
+        <small>Selectează maximum 5 imagini JPEG, PNG sau WebP, de cel mult 5 MB fiecare.</small>
     </div>
 <?php endif; ?>
 <div class="form-actions">
