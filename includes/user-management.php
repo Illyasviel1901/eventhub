@@ -67,10 +67,8 @@ function createClientUser(string $name, string $email, string $password): void
     ]);
 }
 
-function deleteClientUser(int $id): bool
+function deleteClientUser(int $id): void
 {
     $statement = db()->prepare("DELETE FROM users WHERE id = :id AND role = 'USER'");
     $statement->execute(['id' => $id]);
-
-    return $statement->rowCount() === 1;
 }

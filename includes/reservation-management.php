@@ -164,7 +164,7 @@ function validateReservationInput(array $input, bool $admin, ?int $exceptReserva
 }
 
 /** @param array<string, string> $input */
-function createReservation(int $userId, array $input): int
+function createReservation(int $userId, array $input): void
 {
     $statement = db()->prepare(
         'INSERT INTO reservations
@@ -181,8 +181,6 @@ function createReservation(int $userId, array $input): int
         'details' => $input['details'],
         'status' => $input['status'],
     ]);
-
-    return (int) db()->lastInsertId();
 }
 
 /** @param array<string, string> $input */

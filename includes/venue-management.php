@@ -147,7 +147,7 @@ function venueNameExists(string $name, ?int $exceptId = null): bool
  * @param array{name: string, description: string, address: string, capacity: string} $input
  * @param array<int, array{name: string, tmp_name: string, error: int, size: int, mime_type: string}> $images
  */
-function createVenue(array $input, array $images = []): int
+function createVenue(array $input, array $images = []): void
 {
     $pdo = db();
     $pdo->beginTransaction();
@@ -202,7 +202,6 @@ function createVenue(array $input, array $images = []): int
         }
 
         $pdo->commit();
-        return $venueId;
     } catch (Throwable $exception) {
         if ($pdo->inTransaction()) {
             $pdo->rollBack();
