@@ -55,7 +55,7 @@ $result = [
 ];
 
 if ($result['weather_eligible']) {
-    // Cache-ul de 30 minute rezolvă cererile repetate. Pauza minimă limitează
+    // Cache-ul de 30 minute rezolvă solicitările repetate. Pauza minimă limitează
     // doar apelurile externe succesive, fără a afecta răspunsurile deja memorate.
     $lastRequest = (float) ($_SESSION['weather_last_external_request'] ?? 0.0);
     $cacheKey = 'weather_forecast_' . hash('sha256', strtolower(venueCityFromAddress($venue['address'])) . '|' . $date);

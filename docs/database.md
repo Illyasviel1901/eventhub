@@ -61,7 +61,7 @@ La ștergerea locației, imaginile sunt șterse prin `ON DELETE CASCADE`.
 | `details` | cerințele clientului |
 | `status` | `PENDING`, `APPROVED` sau `REJECTED` |
 
-Ștergerea unui client elimină cererile lui (`CASCADE`). O locație cu cereri nu poate fi ștearsă (`RESTRICT`). O locație/data este ocupată numai de o cerere `APPROVED`.
+Ștergerea unui client elimină solicitările lui (`CASCADE`). O locație cu solicitări nu poate fi ștearsă (`RESTRICT`). O locație/data este ocupată numai de o solicitare `APPROVED`.
 
 ## `contact_messages`
 

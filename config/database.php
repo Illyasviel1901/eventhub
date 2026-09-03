@@ -7,7 +7,7 @@ require_once __DIR__ . '/environment.php';
 loadEnvironment(dirname(__DIR__) . '/.env');
 
 /**
- * Creează o singură conexiune PDO reutilizată pe durata cererii PHP.
+ * Creează o singură conexiune PDO reutilizată pe durata solicitării PHP.
  */
 function db(): PDO
 {

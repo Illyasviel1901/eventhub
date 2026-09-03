@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isValidCsrfToken($_POST['csrf_token'] ?? null)) {
         $errors[] = 'Sesiunea formularului a expirat. Reîncarcă pagina și încearcă din nou.';
     } elseif (isAutomatedPublicSubmission($website)) {
-        $errors[] = 'Cererea nu a putut fi procesată.';
+        $errors[] = 'Solicitarea nu a putut fi procesată.';
     }
 
     if ($name === '' || strlen($name) < 2 || strlen($name) > 100) {

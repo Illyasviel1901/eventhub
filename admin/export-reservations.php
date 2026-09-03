@@ -26,4 +26,4 @@ foreach ($statement->fetchAll() as $reservation) {
     ];
 }
 
-sendXlsxDownload(createXlsxFile($rows, 'Cereri'), 'eventhub-cereri-' . date('Y-m-d') . '.xlsx');
+sendXlsxDownload(createXlsxFile($rows, 'Solicitări'), 'eventhub-solicitari-' . date('Y-m-d') . '.xlsx');

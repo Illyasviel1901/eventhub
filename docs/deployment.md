@@ -43,7 +43,7 @@ Pentru o bază nouă:
 - `/` și `/venues.php` afișează locațiile și fotografiile;
 - `/register.php` trimite codul prin Brevo;
 - loginurile `USER` și `ADMIN` funcționează;
-- cererile pot fi create și procesate;
+- solicitările pot fi create și procesate;
 - `/robots.txt` și `/sitemap.php` folosesc `APP_URL` public;
 - exporturile XLSX și raportul PDF se descarcă;
 - statisticile înregistrează accesări.

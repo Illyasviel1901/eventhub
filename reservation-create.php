@@ -76,7 +76,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 <section class="admin-page-heading"><div class="shell narrow"><p class="eyebrow">Solicitare de rezervare</p><h1><?= e($venue['name']) ?></h1><p><?= e($venue['address']) ?> · maximum <?= (int) $venue['capacity'] ?> persoane</p></div></section>
 <section class="section"><div class="shell narrow"><div class="form-card">
-    <h2>Detaliile evenimentului</h2><p class="form-lead">Cererea va avea inițial statusul „În așteptare”. Confirmarea este făcută ulterior de echipa EventHub.</p>
+    <h2>Detaliile evenimentului</h2><p class="form-lead">Solicitarea va avea inițial statusul „În așteptare”. Confirmarea este făcută ulterior de echipa EventHub.</p>
     <?php if ($errors !== []): ?><div class="notice notice-error notice-left" role="alert"><ul><?php foreach ($errors as $error): ?><li><?= e($error) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
     <form method="post" action="reservation-create.php?venue_id=<?= (int) $venueId ?>" novalidate>
         <input type="hidden" name="csrf_token" value="<?= e(csrfToken()) ?>">

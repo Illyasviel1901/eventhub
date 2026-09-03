@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 if (!isValidCsrfToken($_POST['csrf_token'] ?? null)) {
     http_response_code(403);
-    exit('Cerere invalidă. Reîncarcă pagina și încearcă din nou.');
+    exit('Solicitare invalidă. Reîncarcă pagina și încearcă din nou.');
 }
 
 logoutUser();

@@ -21,7 +21,7 @@ if (!isValidCsrfToken($_POST['csrf_token'] ?? null)) {
 $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
 $decision = strtoupper(trim((string) ($_POST['decision'] ?? '')));
 if ($id === false) {
-    setFlash('error', 'Identificatorul cererii nu este valid.');
+    setFlash('error', 'Identificatorul solicitării nu este valid.');
     redirect('reservations.php');
 }
 
@@ -34,12 +34,12 @@ if (!$result['success']) {
 $mailSent = sendReservationStatusEmail($result['reservation'], $decision);
 if ($mailSent) {
     setFlash('success', $decision === 'APPROVED'
-        ? 'Cererea a fost aprobată, iar utilizatorul a fost notificat prin email.'
-        : 'Cererea a fost respinsă, iar utilizatorul a fost notificat prin email.');
+        ? 'Solicitarea a fost aprobată, iar utilizatorul a fost notificat prin email.'
+        : 'Solicitarea a fost respinsă, iar utilizatorul a fost notificat prin email.');
 } else {
     setFlash('info', $decision === 'APPROVED'
-        ? 'Cererea a fost aprobată. Emailul nu a putut fi trimis.'
-        : 'Cererea a fost respinsă. Emailul nu a putut fi trimis.');
+        ? 'Solicitarea a fost aprobată. Emailul nu a putut fi trimis.'
+        : 'Solicitarea a fost respinsă. Emailul nu a putut fi trimis.');
 }
 
 redirect('reservations.php');

@@ -43,18 +43,18 @@ $lines = [
     'SINTEZA',
     'Locatii: ' . $venueCount,
     'Clienti: ' . $userCount,
-    'Cereri totale: ' . (int) ($statistics['total'] ?? 0),
+    'Solicitări totale: ' . (int) ($statistics['total'] ?? 0),
     'In asteptare: ' . (int) ($statistics['pending'] ?? 0) . ' | Aprobate: ' . (int) ($statistics['approved'] ?? 0) . ' | Respinse: ' . (int) ($statistics['rejected'] ?? 0),
     '',
     'CELE MAI SOLICITATE LOCATII',
 ];
 foreach ($popularVenues as $index => $venue) {
-    $lines[] = ($index + 1) . '. ' . $venue['name'] . ' - ' . (int) $venue['requests'] . ' cereri';
+    $lines[] = ($index + 1) . '. ' . $venue['name'] . ' - ' . (int) $venue['requests'] . ' solicitări';
 }
 $lines[] = '';
-$lines[] = 'CERERI';
+$lines[] = 'SOLICITĂRI';
 if ($reservations === []) {
-    $lines[] = 'Nu exista cereri inregistrate.';
+    $lines[] = 'Nu exista solicitări inregistrate.';
 } else {
     foreach ($reservations as $reservation) {
         $lines[] = sprintf(

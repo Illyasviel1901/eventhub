@@ -127,7 +127,7 @@ function sendReservationStatusEmail(array $reservation, string $status): bool
     $date = DateTimeImmutable::createFromFormat('!Y-m-d', (string) $reservation['event_date']);
     $formattedDate = $date === false ? (string) $reservation['event_date'] : $date->format('d.m.Y');
     $body = "Bună ziua, {$reservation['user_name']},\n\n"
-        . "Cererea dvs. pentru {$reservation['venue_name']} din {$formattedDate} a fost {$statusText}.\n\n"
+        . "Solicitarea dvs. pentru {$reservation['venue_name']} din {$formattedDate} a fost {$statusText}.\n\n"
         . "Eveniment: {$reservation['event_name']}\n"
         . "Status: " . ($status === 'APPROVED' ? 'APROBATĂ' : 'RESPINSĂ') . "\n\n"
         . 'Echipa EventHub';
@@ -135,7 +135,7 @@ function sendReservationStatusEmail(array $reservation, string $status): bool
     return sendRecipientEmail(
         (string) $reservation['user_email'],
         (string) $reservation['user_name'],
-        'Cerere EventHub ' . $statusText,
+        'Solicitare EventHub ' . $statusText,
         $body
     );
 }

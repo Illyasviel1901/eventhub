@@ -32,8 +32,8 @@ Aplicația folosește PHP simplu:
 - se autentifică și își editează profilul;
 - consultă locațiile și galeriile;
 - solicită o locație disponibilă;
-- vede doar propriile cereri;
-- anulează numai cereri `PENDING` proprii;
+- vede doar propriile solicitări;
+- anulează numai solicitări `PENDING` proprii;
 - trimite formularul de contact.
 
 ### ADMIN
@@ -41,7 +41,7 @@ Aplicația folosește PHP simplu:
 - accesează zona `/admin` după verificarea rolului pe server;
 - gestionează locații și poate încărca imagini;
 - creează/șterge conturi `USER`;
-- creează, editează, aprobă, respinge și șterge cereri;
+- creează, editează, aprobă, respinge și șterge solicitări;
 - consultă statisticile;
 - importă/exportă XLSX și generează PDF.
 

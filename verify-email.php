@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isValidCsrfToken($_POST['csrf_token'] ?? null)) {
         $errors[] = 'Sesiunea formularului a expirat.';
     } elseif (isAutomatedPublicSubmission($_POST['website'] ?? null)) {
-        $errors[] = 'Cererea nu a putut fi procesată.';
+        $errors[] = 'Solicitarea nu a putut fi procesată.';
     } elseif (!verifyPendingEmailCode('registration', $code)) {
         $errors[] = 'Codul este incorect sau a expirat.';
     } else {

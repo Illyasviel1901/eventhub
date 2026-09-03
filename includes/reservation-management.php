@@ -247,14 +247,14 @@ function decidePendingReservation(int $id, string $decision): array
         return ['success' => false, 'message' => 'Solicitarea nu a fost găsită.'];
     }
     if ($reservation['status'] !== 'PENDING') {
-        return ['success' => false, 'message' => 'Numai cererile în așteptare pot fi aprobate sau respinse.'];
+        return ['success' => false, 'message' => 'Numai solicitările în așteptare pot fi aprobate sau respinse.'];
     }
 
     $lockName = 'eventhub_reservation_' . (int) $reservation['venue_id'] . '_' . $reservation['event_date'];
     $lockStatement = $pdo->prepare('SELECT GET_LOCK(:lock_name, 5)');
     $lockStatement->execute(['lock_name' => $lockName]);
     if ((int) $lockStatement->fetchColumn() !== 1) {
-        return ['success' => false, 'message' => 'Cererea nu poate fi procesată momentan. Încearcă din nou.'];
+        return ['success' => false, 'message' => 'Solicitarea nu poate fi procesată momentan. Încearcă din nou.'];
     }
 
     try {
@@ -263,7 +263,7 @@ function decidePendingReservation(int $id, string $decision): array
         $currentStatement->execute(['id' => $id]);
         if ($currentStatement->fetchColumn() !== 'PENDING') {
             $pdo->rollBack();
-            return ['success' => false, 'message' => 'Cererea a fost deja procesată.'];
+            return ['success' => false, 'message' => 'Solicitarea a fost deja procesată.'];
         }
 
         if ($decision === 'APPROVED' && reservationDateIsBlocked(
@@ -280,7 +280,7 @@ function decidePendingReservation(int $id, string $decision): array
         $pdo->commit();
         $reservation['status'] = $decision;
 
-        return ['success' => true, 'message' => 'Statusul cererii a fost actualizat.', 'reservation' => $reservation];
+        return ['success' => true, 'message' => 'Statusul solicitării a fost actualizat.', 'reservation' => $reservation];
     } catch (Throwable $exception) {
         if ($pdo->inTransaction()) {
             $pdo->rollBack();

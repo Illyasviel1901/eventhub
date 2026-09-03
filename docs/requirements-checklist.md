@@ -3,10 +3,10 @@
 | Cerință | Implementare | Status |
 |---|---|---|
 | PHP + MySQL | pagini PHP, `config/database.php`, `database/schema.sql` | Implementat |
-| CRUD | `admin/venue-*.php`, administrarea cererilor și utilizatorilor | Implementat |
+| CRUD | `admin/venue-*.php`, administrarea solicitărilor și utilizatorilor | Implementat |
 | Autentificare/înregistrare | `login.php`, `register.php`, `verify-email.php` | Implementat |
 | Categorii de utilizatori | rolurile `USER`/`ADMIN`, `requireRole()` | Implementat |
-| Pagini dinamice legate | catalog, detalii, cont, cereri și administrare | Implementat |
+| Pagini dinamice legate | catalog, detalii, cont, solicitări și administrare | Implementat |
 | Raport non-HTML/CSV | `admin/report-pdf.php` | Implementat |
 | Analytics | `page_visits`, `admin/analytics.php` | Implementat |
 | Contact și email | `contact.php`, Brevo în `config/mailer.php` | Implementat |

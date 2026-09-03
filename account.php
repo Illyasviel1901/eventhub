@@ -28,7 +28,7 @@ require __DIR__ . '/includes/header.php';
         <?php if ($user['role'] === 'ADMIN'): ?>
             <div class="account-note"><h2>Administrarea EventHub</h2><p>Contul tău are acces la secțiunea administrativă protejată.</p><a class="button button-primary" href="admin/index.php">Deschide panoul administrativ</a></div>
         <?php else: ?>
-            <div class="account-note"><h2>Planifică evenimentul</h2><p>Poți solicita o locație și urmări statusul cererilor trimise.</p><div class="button-row"><a class="button button-primary" href="venues.php">Explorează locațiile</a><a class="button button-secondary" href="my-reservations.php">Rezervările mele</a><a class="button button-secondary" href="account-edit.php">Editează datele contului</a></div></div>
+            <div class="account-note"><h2>Planifică evenimentul</h2><p>Poți solicita o locație și urmări statusul solicitărilor trimise.</p><div class="button-row"><a class="button button-primary" href="venues.php">Explorează locațiile</a><a class="button button-secondary" href="my-reservations.php">Rezervările mele</a><a class="button button-secondary" href="account-edit.php">Editează datele contului</a></div></div>
         <?php endif; ?>
         <div class="logout-panel">
             <div><h2>Încheierea sesiunii</h2><p>Te poți deconecta în siguranță de pe acest dispozitiv.</p></div>

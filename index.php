@@ -6,7 +6,7 @@ require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/functions.php';
 
 $pageTitle = 'Locații pentru evenimente în București';
-$pageDescription = 'Descoperă cinci locații reale din București și trimite online o cerere de rezervare prin EventHub.';
+$pageDescription = 'Descoperă cinci locații reale din București și trimite online o solicitare de rezervare prin EventHub.';
 $currentPage = 'home';
 $structuredData = [
     '@context' => 'https://schema.org',
@@ -55,7 +55,7 @@ require __DIR__ . '/includes/header.php';
         <div class="steps-grid">
             <article class="step-card"><span>01</span><h3>Explorează</h3><p>Compară descrierea, adresa și capacitatea fiecărui spațiu.</p></article>
             <article class="step-card"><span>02</span><h3>Verifică</h3><p>Consultă datile deja ocupate pentru locația aleasă.</p></article>
-            <article class="step-card"><span>03</span><h3>Solicită</h3><p>Trimite o cerere de rezervare catre echipa EventHub</p></article>
+            <article class="step-card"><span>03</span><h3>Solicită</h3><p>Trimite o solicitare de rezervare catre echipa EventHub</p></article>
         </div>
     </div>
 </section>

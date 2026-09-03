@@ -21,7 +21,7 @@ Poate crea și verifica un cont, edita numele/emailul, explora locațiile, trimi
 
 ### ADMIN
 
-Poate gestiona locații, imagini, utilizatori `USER` și toate cererile; poate aproba, respinge sau șterge cereri, vedea statistici, importa/exporta XLSX și genera raportul PDF.
+Poate gestiona locații, imagini, utilizatori `USER` și toate solicitările; poate aproba, respinge sau șterge solicitări, vedea statistici, importa/exporta XLSX și genera raportul PDF.
 
 ## Funcționalități
 
@@ -30,7 +30,7 @@ Poate gestiona locații, imagini, utilizatori `USER` și toate cererile; poate a
 - upload persistent de imagini în MySQL la crearea unei locații;
 - solicitări cu verificarea disponibilității și prognoză pentru următoarele șapte zile;
 - emailuri tranzacționale prin Brevo la înregistrare și schimbarea statusului;
-- CRUD locații și administrarea utilizatorilor/cererilor;
+- CRUD locații și administrarea utilizatorilor/solicitărilor;
 - statistici interne din `page_visits`;
 - import/export XLSX și raport PDF;
 - SEO: titluri, descrieri, canonical, Open Graph, JSON-LD, robots și sitemap dinamic;

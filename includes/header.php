@@ -95,7 +95,7 @@ $structuredData = $structuredData ?? [
                     <a href="<?= e($basePath) ?>my-reservations.php"<?= $currentPage === 'my-reservations' ? ' aria-current="page"' : '' ?>>Rezervările mele</a>
                 <?php endif; ?>
                 <?php if ($authenticatedUser['role'] === 'ADMIN'): ?>
-                    <a class="nav-with-badge" href="<?= e($basePath) ?>admin/reservations.php"<?= $currentPage === 'requests' ? ' aria-current="page"' : '' ?>>Cereri<?php if ($pendingRequests > 0): ?><span class="nav-badge" aria-label="<?= $pendingRequests ?> cereri în așteptare"><?= $pendingRequests ?></span><?php endif; ?></a>
+                    <a class="nav-with-badge" href="<?= e($basePath) ?>admin/reservations.php"<?= $currentPage === 'requests' ? ' aria-current="page"' : '' ?>>Solicitări<?php if ($pendingRequests > 0): ?><span class="nav-badge" aria-label="<?= $pendingRequests ?> solicitări în așteptare"><?= $pendingRequests ?></span><?php endif; ?></a>
                     <a href="<?= e($basePath) ?>admin/analytics.php"<?= $currentPage === 'analytics' ? ' aria-current="page"' : '' ?>>Statistici</a>
                     <a href="<?= e($basePath) ?>admin/reports.php"<?= $currentPage === 'reports' ? ' aria-current="page"' : '' ?>>Rapoarte</a>
                     <a href="<?= e($basePath) ?>admin/index.php"<?= $currentPage === 'admin' ? ' aria-current="page"' : '' ?>>Administrare</a>

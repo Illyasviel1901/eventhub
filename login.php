@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isValidCsrfToken($_POST['csrf_token'] ?? null)) {
         $errors[] = 'Sesiunea formularului a expirat. Reîncarcă pagina și încearcă din nou.';
     } elseif (isAutomatedPublicSubmission($website)) {
-        $errors[] = 'Cererea nu a putut fi procesată.';
+        $errors[] = 'Solicitarea nu a putut fi procesată.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '') {
         $errors[] = 'Introdu o adresă de email și o parolă valide.';
     } else {
