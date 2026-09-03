@@ -55,7 +55,7 @@ function updateUserIdentity(int $id, string $name, string $email): void
     $statement->execute(['id' => $id, 'name' => $name, 'email' => $email]);
 }
 
-function createClientUser(string $name, string $email, string $password): int
+function createClientUser(string $name, string $email, string $password): void
 {
     $statement = db()->prepare(
         "INSERT INTO users (name, email, password, role) VALUES (:name, :email, :password, 'USER')"
@@ -65,8 +65,6 @@ function createClientUser(string $name, string $email, string $password): int
         'email' => $email,
         'password' => password_hash($password, PASSWORD_DEFAULT),
     ]);
-
-    return (int) db()->lastInsertId();
 }
 
 function deleteClientUser(int $id): bool
