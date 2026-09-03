@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/config/database.php';
-require_once dirname(__DIR__) . '/config/mailer.php';
 require_once dirname(__DIR__) . '/includes/functions.php';
 require_once dirname(__DIR__) . '/includes/auth.php';
 require_once dirname(__DIR__) . '/includes/reservation-management.php';
@@ -25,11 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($errors === []) {
             createReservation((int) $input['user_id'], $input);
-            $client = getUserById((int) $input['user_id']);
-            $venue = getVenueById((int) $input['venue_id']);
-            if ($client !== null && $venue !== null) {
-                sendReservationNotification($input, $client['name'], $client['email'], $venue['name']);
-            }
             setFlash('success', 'Solicitarea a fost adăugată în numele clientului selectat.');
             redirect('reservations.php');
         }
