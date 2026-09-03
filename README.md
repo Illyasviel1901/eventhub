@@ -43,7 +43,7 @@ admin/              pagini protejate pentru administrare
 assets/             CSS, JavaScript și fotografii statice
 config/             mediu, PDO, sesiune și Brevo
 includes/           logică reutilizabilă
-database/           schema, seed și migrarea finală
+database/           schema și date inițiale
 docs/               arhitectură, bază de date, testare și deploy
 *.php                paginile și endpointurile publice
 Dockerfile           imaginea Railway
@@ -101,7 +101,7 @@ Schema finală are șase tabele:
 - `contact_messages`;
 - `page_visits`.
 
-Pentru o bază nouă se folosesc numai `schema.sql` și `seed.sql`. Pentru baza Railway existentă se rulează o singură dată `database/migrations/2026-09-02-final-cleanup.sql`.
+Pentru inițializarea bazei se rulează `schema.sql`, apoi `seed.sql`.
 
 ## Documentație
 

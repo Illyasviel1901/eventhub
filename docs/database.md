@@ -74,5 +74,4 @@ Păstrează `page` și `visited_at` pentru statisticile interne. Nu se stocheaz�
 ## Fișiere SQL
 
 - `database/schema.sql`: schema completă pentru instalări noi;
-- `database/seed.sql`: cont ADMIN, cinci locații și fotografiile statice;
-- `database/migrations/2026-09-02-final-cleanup.sql`: elimină din baza Railway referințele statice vechi și datele MIME redundante, fără a șterge uploaduri sau date operaționale.
+- `database/seed.sql`: cont ADMIN, cinci locații și fotografiile statice.

@@ -38,14 +38,6 @@ Pentru o bază nouă:
 1. rulează `database/schema.sql`;
 2. rulează `database/seed.sql`.
 
-Pentru baza Railway existentă, după versiunea finală, rulează o singură dată:
-
-```text
-database/migrations/2026-09-02-final-cleanup.sql
-```
-
-Migrarea elimină numai referințele statice vechi și nu șterge utilizatori, locații, rezervări, mesaje, accesări sau imagini încărcate de administrator.
-
 ## Verificare după deploy
 
 - `/` și `/venues.php` afișează locațiile și fotografiile;
